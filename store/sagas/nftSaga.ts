@@ -1,5 +1,4 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { mockNFTs } from '@/lib/mockData';
 import {
   fetchNFTs,
   fetchNFTsSuccess,
@@ -8,12 +7,12 @@ import {
 
 function* fetchNFTsSaga() {
   try {
-    // Simulate API call
-    yield new Promise(resolve => setTimeout(resolve, 1000));
-    yield put(fetchNFTsSuccess(mockNFTs));
+    const res: Response = yield call(fetch, '/api/nfts');
+    const data = yield call([res, 'json']);
+    yield put(fetchNFTsSuccess(data));
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error 
-      ? error.message 
+    const errorMessage = error instanceof Error
+      ? error.message
       : 'An unknown error occurred while fetching NFTs';
     yield put(fetchNFTsFailure(errorMessage));
   }
