@@ -1,6 +1,5 @@
 datasource db {
   provider = "postgresql"
-  // The connection URL should be set in your `.env` file
   url      = env("DATABASE_URL")
 }
 
